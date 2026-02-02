@@ -27,6 +27,9 @@ class UserController extends Controller
         ]);
 
         Auth::login($user);
+        $request->session()->put('id', $user->id);
+        $request->session()->put('name', $user->name);
+        $request->session()->put('email', $user->email);
 
         return redirect('/');
     }
