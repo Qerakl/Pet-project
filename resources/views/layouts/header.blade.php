@@ -24,7 +24,12 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Профиль</a></li>
                             <li><a class="dropdown-item" href="#">Настройки</a></li>
-                            <li><a class="dropdown-item" style="color: red" href="#">Выйти</a></li>
+                            <li>
+                                <form action="{{route('logout')}}" method="post">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item" style="color: red">Выйти</button>
+                                </form>
+                            </li>
                         </ul>
                     </li>
                 @endauth
@@ -34,7 +39,7 @@
                            Вы еще не вошли
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Регистрация</a></li>
+                            <li><a class="dropdown-item" href="{{route('view.register')}}">Регистрация</a></li>
                             <li><a class="dropdown-item" href="#">Вход</a></li>
                         </ul>
                     </li>

@@ -31,4 +31,11 @@ class UserController extends Controller
 
         return redirect('/');
     }
+
+    public function logout()
+    {
+        Auth::logout();
+        session()->flush();
+        return redirect('/');
+    }
 }
