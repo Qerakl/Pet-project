@@ -7,7 +7,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth:guest'])->group(function () {
+Route::middleware(['guest'])->group(function () {
     Route::get('/register', [UserController::class, 'viewRegister'])->name('view.register');
     Route::post('/register', [UserController::class, 'register'])->name('register');
 
