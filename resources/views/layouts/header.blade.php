@@ -22,7 +22,7 @@
                             {{\Illuminate\Support\Facades\Auth::user()->name}}
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Профиль</a></li>
+                            <li><a class="dropdown-item" href="{{route('view.profile')}}">Профиль</a></li>
                             <li><a class="dropdown-item" href="#">Настройки</a></li>
                             <li>
                                 <form action="{{route('logout')}}" method="post">

@@ -64,4 +64,11 @@ class UserController extends Controller
         session()->flush();
         return redirect('/');
     }
+
+    //Переход на страницу входа
+    public function viewProfile()
+    {
+        $user = Auth::user();
+        return view('Auth.profile', ['name' => $user->name, 'email' => $user->email]);
+    }
 }
