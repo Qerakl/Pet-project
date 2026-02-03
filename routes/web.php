@@ -20,5 +20,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('logout', [UserController::class, 'logout'])->name('logout');
 
     Route::get('/settings', [UserController::class, 'viewSettings'])->name('view.settings');
+    Route::put('/settings/user/update/password', [UserController::class, 'updatePassword'])->name('update.user.password');
     Route::put('/settings/user/update/{id}', [UserController::class, 'update'])->name('update.user');
+
 });

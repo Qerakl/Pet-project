@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\UserLoginRequest;
 use App\Http\Requests\Auth\UserRegisterRequest;
+use App\Http\Requests\Settings\UserUpdatePasswordRequest;
 use App\Http\Requests\Settings\UserUpdateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -87,5 +88,22 @@ class UserController extends Controller
         Auth::login($user);
         $request->session()->regenerate();
         return redirect('/');
+    }
+
+    public function updatePassword(UserUpdatePasswordRequest $request)
+    {
+        $user = Auth::user();
+
+        // Laravel сам захэширует new_password благодаря 'password' => 'hashed' в модели
+        $user->update([
+            'password' => $request->new_password
+        ]);
+
+        Auth::logoutOtherDevices($request->new_password);
+
+        Auth::login($user);
+        $request->session()->regenerate();
+
+        return redirect('/')->with('status', 'Пароль успешно изменен');
     }
 }
