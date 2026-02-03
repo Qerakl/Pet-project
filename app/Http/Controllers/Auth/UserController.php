@@ -16,7 +16,7 @@ class UserController extends Controller
         if (Auth::check()) {
             return redirect('/');
         }
-        return view('register');
+        return view('Auth.register');
     }
     public function register(UserRegisterRequest $request)
     {
