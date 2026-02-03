@@ -40,7 +40,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{{route('view.register')}}">Регистрация</a></li>
-                            <li><a class="dropdown-item" href="#">Вход</a></li>
+                            <li><a class="dropdown-item" href="{{route('view.login')}}">Вход</a></li>
                         </ul>
                     </li>
                 @endguest
