@@ -18,4 +18,7 @@ Route::middleware(['guest'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [UserController::class, 'viewProfile'])->name('view.profile');
     Route::post('logout', [UserController::class, 'logout'])->name('logout');
+
+    Route::get('/settings', [UserController::class, 'viewSettings'])->name('view.settings');
+    Route::put('/settings/user/update/{id}', [UserController::class, 'update'])->name('update.user');
 });

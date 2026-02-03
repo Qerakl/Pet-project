@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\UserLoginRequest;
 use App\Http\Requests\Auth\UserRegisterRequest;
+use App\Http\Requests\Settings\UserUpdateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -70,5 +71,21 @@ class UserController extends Controller
     {
         $user = Auth::user();
         return view('Auth.profile', ['name' => $user->name, 'email' => $user->email]);
+    }
+
+    //Переход на страницу редактирования данных пользователя
+    public function viewSettings()
+    {
+        $user = Auth::user();
+        return view('Settings.update-user', ['name' => $user->name, 'email' => $user->email]);
+    }
+
+    public function update(UserUpdateRequest $request)
+    {
+        $user = Auth::user();
+        $user->update($request->validated());
+        Auth::login($user);
+        $request->session()->regenerate();
+        return redirect('/');
     }
 }
