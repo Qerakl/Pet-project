@@ -23,6 +23,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{{route('view.profile')}}">Профиль</a></li>
+                            <li><a class="dropdown-item" href="{{route('posts.index')}}">Посты</a></li>
                             <li><a class="dropdown-item" href="{{route('view.settings')}}">Настройки</a></li>
                             <li>
                                 <form action="{{route('logout')}}" method="post">
