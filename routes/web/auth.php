@@ -18,4 +18,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/settings/user/update/password', [UserController::class, 'updatePassword'])->name('update.user.password');
     Route::put('/settings/user/update/{id}', [UserController::class, 'update'])->name('update.user');
 
+    // Аватар
+    Route::post('/settings/avatar', [UserController::class, 'updateAvatar'])->name('update.avatar');
+    Route::delete('/settings/avatar', [UserController::class, 'deleteAvatar'])->name('delete.avatar');
 });

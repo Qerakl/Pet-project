@@ -17,6 +17,7 @@ class Post extends Model
         'title',
         'body',
         'user_id',
+        'image',
     ];
 
     public function user(): BelongsTo
@@ -27,5 +28,29 @@ class Post extends Model
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function likes(): HasMany
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    public function isLikedBy(?User $user): bool
+    {
+        if (!$user) {
+            return false;
+        }
+        return $this->likes()->where('user_id', $user->id)->exists();
+    }
+
+    /**
+     * Получить URL изображения или null
+     */
+    public function getImageUrl(): ?string
+    {
+        if ($this->image) {
+            return asset('storage/' . $this->image);
+        }
+        return null;
     }
 }

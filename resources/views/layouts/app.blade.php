@@ -1,18 +1,22 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Главная - @yield('title')</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>MyBlog - @yield('title')</title>
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
-<body>
-    <div class="container">
-        @include('layouts.header')
-        @yield('content')
-        @include('layouts.footer')
-    </div>
+<body class="d-flex flex-column min-vh-100">
+    @include('layouts.header')
+
+    <main class="flex-grow-1 py-4">
+        <div class="container">
+            @yield('content')
+        </div>
+    </main>
+
+    @include('layouts.footer')
 </body>
 </html>

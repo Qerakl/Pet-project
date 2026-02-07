@@ -7,3 +7,183 @@
 /* Bootstrap */
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons.css';
+
+/* ==========================================
+   Custom Styles
+   ========================================== */
+
+/* --- Card hover effects --- */
+.card {
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.card-hover:hover {
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1) !important;
+    transform: translateY(-2px);
+}
+
+/* --- Button transitions --- */
+.btn {
+    transition: all 0.2s ease;
+}
+
+/* --- Link transitions --- */
+a {
+    transition: color 0.2s ease;
+}
+
+/* --- Post title hover --- */
+.post-title-link {
+    text-decoration: none;
+    color: $dark;
+
+    &:hover {
+        color: $primary;
+    }
+}
+
+/* --- Auth card (login/register) --- */
+.auth-card {
+    max-width: 460px;
+    margin: 0 auto;
+}
+
+.auth-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    margin: 0 auto 1rem;
+}
+
+/* --- Like button --- */
+.btn-like {
+    border: 1px solid #dee2e6;
+    background: transparent;
+    color: #6c757d;
+    border-radius: 2rem;
+    padding: 0.3rem 0.85rem;
+    font-size: 0.875rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+
+    &:hover {
+        border-color: $danger;
+        color: $danger;
+        background: rgba($danger, 0.05);
+    }
+
+    &.liked {
+        border-color: $danger;
+        color: #fff;
+        background: $danger;
+
+        &:hover {
+            background: darken($danger, 8%);
+        }
+    }
+}
+
+/* --- Comment button --- */
+.btn-comment {
+    border: 1px solid #dee2e6;
+    background: transparent;
+    color: #6c757d;
+    border-radius: 2rem;
+    padding: 0.3rem 0.85rem;
+    font-size: 0.875rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    text-decoration: none;
+
+    &:hover {
+        border-color: $primary;
+        color: $primary;
+        background: rgba($primary, 0.05);
+    }
+}
+
+/* --- Stat item (profile) --- */
+.stat-item {
+    text-align: center;
+    padding: 0 1.5rem;
+
+    &:not(:last-child) {
+        border-right: 1px solid #dee2e6;
+    }
+}
+
+/* --- Profile banner --- */
+.profile-banner {
+    background: linear-gradient(135deg, $primary 0%, lighten($primary, 20%) 100%);
+    height: 160px;
+    border-radius: 0.75rem 0.75rem 0 0;
+}
+
+/* --- Avatar ring --- */
+.avatar-ring {
+    border: 4px solid #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* --- Footer --- */
+.site-footer {
+    background: #fff;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* --- Input group icons --- */
+.input-group-text {
+    background: #f8f9fa;
+    border-right: none;
+}
+
+.input-group .form-control {
+    border-left: none;
+
+    &:focus {
+        border-left: none;
+    }
+}
+
+/* --- Empty state --- */
+.empty-state {
+    padding: 3rem 1rem;
+
+    .empty-icon {
+        font-size: 4rem;
+        color: #ced4da;
+    }
+}
+
+/* --- Navbar active link underline --- */
+.navbar .nav-link.active {
+    position: relative;
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0.5rem;
+        right: 0.5rem;
+        height: 2px;
+        background: $primary;
+        border-radius: 1px;
+    }
+}
+
+/* --- Card image top --- */
+.card-img-top {
+    border-radius: 0.75rem 0.75rem 0 0;
+}
+
+/* --- Smooth scroll --- */
+html {
+    scroll-behavior: smooth;
+}

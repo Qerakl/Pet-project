@@ -11,6 +11,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -67,18 +68,19 @@ class UserController extends Controller
         return redirect('/');
     }
 
-    //Переход на страницу входа
+    //Переход на страницу профиля
     public function viewProfile()
     {
         $user = Auth::user();
-        return view('Auth.profile', ['name' => $user->name, 'email' => $user->email]);
+        $user->load(['posts', 'likes']);
+        return view('Auth.profile', compact('user'));
     }
 
     //Переход на страницу редактирования данных пользователя
     public function viewSettings()
     {
         $user = Auth::user();
-        return view('Settings.update-user', ['name' => $user->name, 'email' => $user->email]);
+        return view('Settings.update-user', compact('user'));
     }
 
     public function update(UserUpdateRequest $request)
@@ -105,5 +107,43 @@ class UserController extends Controller
         $request->session()->regenerate();
 
         return redirect('/')->with('status', 'Пароль успешно изменен');
+    }
+
+    public function updateAvatar(Request $request)
+    {
+        $request->validate([
+            'avatar' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
+        ], [
+            'avatar.required' => 'Выберите изображение',
+            'avatar.image' => 'Файл должен быть изображением',
+            'avatar.mimes' => 'Допустимые форматы: jpeg, png, jpg, gif, webp',
+            'avatar.max' => 'Максимальный размер файла: 2MB',
+        ]);
+
+        $user = Auth::user();
+
+        // Удалить старый аватар если есть
+        if ($user->avatar) {
+            Storage::disk('public')->delete($user->avatar);
+        }
+
+        // Сохранить новый аватар
+        $path = $request->file('avatar')->store('avatars', 'public');
+
+        $user->update(['avatar' => $path]);
+
+        return back()->with('success', 'Аватар успешно обновлён');
+    }
+
+    public function deleteAvatar()
+    {
+        $user = Auth::user();
+
+        if ($user->avatar) {
+            Storage::disk('public')->delete($user->avatar);
+            $user->update(['avatar' => null]);
+        }
+
+        return back()->with('success', 'Аватар удалён');
     }
 }

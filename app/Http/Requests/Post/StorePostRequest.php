@@ -25,14 +25,20 @@ class StorePostRequest extends FormRequest
         return [
             'title' => 'required|string|max:255|min:3',
             'body' => 'required|string|max:2500|min:3',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'title.required' => 'The title field is required.',
-            'body.required' => 'The body field is required.',
+            'title.required' => 'Заголовок обязателен.',
+            'title.min' => 'Заголовок должен быть минимум 3 символа.',
+            'body.required' => 'Текст поста обязателен.',
+            'body.min' => 'Текст поста должен быть минимум 3 символа.',
+            'image.image' => 'Файл должен быть изображением.',
+            'image.mimes' => 'Допустимые форматы: jpeg, png, jpg, gif, webp.',
+            'image.max' => 'Максимальный размер изображения: 5MB.',
         ];
     }
 }
