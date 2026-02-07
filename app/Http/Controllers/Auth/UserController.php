@@ -72,7 +72,10 @@ class UserController extends Controller
     public function viewProfile()
     {
         $user = Auth::user();
-        $user->load(['posts', 'likes']);
+        $user->load(['posts' => function ($q) {
+            $q->latest()->withCount(['likes', 'comments']);
+        }]);
+        $user->loadCount(['likes', 'posts']);
         return view('Auth.profile', compact('user'));
     }
 

@@ -1,60 +1,205 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Blog Platform
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Полнофункциональное веб-приложение блог-платформы, построенное на Laravel 12. Реализована авторизация, CRUD постов и комментариев, система лайков, загрузка изображений и аватаров.
 
-## About Laravel
+## Стек технологий
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+| Технология | Версия | Назначение |
+|---|---|---|
+| **PHP** | 8.2+ | Серверный язык |
+| **Laravel** | 12 | PHP-фреймворк |
+| **MySQL** | 8.0+ | База данных |
+| **Bootstrap** | 5.3 | UI-фреймворк |
+| **Vite** | 6 | Сборка фронтенда |
+| **SASS/SCSS** | — | CSS-препроцессор |
+| **PHPUnit** | 11 | Тестирование |
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Функционал
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Авторизация** — регистрация, вход, выход, смена пароля
+- **Посты** — создание, редактирование, удаление, лента с пагинацией
+- **Комментарии** — добавление, редактирование, удаление
+- **Лайки** — toggle-лайк на постах (один лайк от пользователя)
+- **Загрузка изображений** — аватары пользователей и изображения к постам
+- **Профиль** — статистика (посты, лайки, дней на сайте), последние записи
+- **Настройки** — изменение имени, email, пароля, аватара
 
-## Learning Laravel
+## Архитектура
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### Service Layer
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Бизнес-логика вынесена из контроллеров в сервисный слой:
 
-## Laravel Sponsors
+```
+app/Services/
+├── PostService.php       # CRUD постов, работа с изображениями
+├── CommentService.php    # CRUD комментариев
+└── LikeService.php       # Toggle лайков
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Контроллеры отвечают только за обработку HTTP-запросов и делегируют логику сервисам.
 
-### Premium Partners
+### Policies (авторизация)
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Права доступа реализованы через Laravel Policies:
 
-## Contributing
+```
+app/Policies/
+├── PostPolicy.php        # update, delete — только автор
+└── CommentPolicy.php     # update, delete — только автор
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Используются через `$this->authorize()` в контроллерах вместо ручных проверок.
 
-## Code of Conduct
+### Form Requests
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Валидация вынесена в отдельные Request-классы:
 
-## Security Vulnerabilities
+```
+app/Http/Requests/
+├── Auth/
+│   ├── UserLoginRequest.php
+│   └── UserRegisterRequest.php
+├── Comment/
+│   ├── StoreCommentRequest.php
+│   └── UpdateCommentRequest.php
+├── Post/
+│   ├── StorePostRequest.php
+│   └── UpdatePostRequest.php
+└── Settings/
+    ├── UserUpdatePasswordRequest.php
+    └── UserUpdateRequest.php
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### API Resources
 
-## License
+Подготовлены Resource-классы для единообразной трансформации данных:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-# Pet-project
+```
+app/Http/Resources/
+├── PostResource.php      # Трансформация поста
+├── PostCollection.php    # Коллекция с мета-данными пагинации
+└── CommentResource.php   # Трансформация комментария
+```
+
+### Service Container & Providers
+
+В `AppServiceProvider` зарегистрированы:
+
+- **Singleton-биндинги** сервисов (`PostService`, `CommentService`, `LikeService`)
+- **`Model::preventLazyLoading()`** — защита от N+1 проблем в dev/testing
+- **`Model::preventSilentlyDiscardingAttributes()`** — защита от ошибок fillable
+
+### Решение N+1 проблемы
+
+- Все запросы используют `with()` для eager loading связей
+- Подсчёты реализованы через `withCount()` вместо загрузки всех записей
+- `preventLazyLoading()` в non-production окружении выбрасывает исключение при ленивой загрузке
+
+### Маршрутизация
+
+Маршруты разделены по файлам:
+
+```
+routes/
+├── web.php           # Главная (лента)
+└── web/
+    ├── auth.php      # Авторизация, профиль, настройки
+    └── post.php      # Посты, комментарии, лайки
+```
+
+## Установка и запуск
+
+```bash
+# Клонировать репозиторий
+git clone https://github.com/your-username/pet-project.git
+cd pet-project
+
+# Установить зависимости
+composer install
+npm install
+
+# Настроить окружение
+cp .env.example .env
+php artisan key:generate
+
+# Настроить базу данных в .env
+# DB_DATABASE=pet_project
+# DB_USERNAME=your_user
+# DB_PASSWORD=your_password
+
+# Выполнить миграции
+php artisan migrate
+
+# Создать символическую ссылку для хранилища
+php artisan storage:link
+
+# Собрать фронтенд
+npm run build
+
+# Запустить сервер
+php artisan serve
+```
+
+## Запуск тестов
+
+```bash
+# Создать тестовую базу данных
+mysql -u your_user -p -e "CREATE DATABASE IF NOT EXISTS pet_project_testing;"
+
+# Запустить все тесты
+php artisan test
+
+# Запустить конкретный набор
+php artisan test --testsuite=Feature
+php artisan test --testsuite=Unit
+```
+
+### Покрытие тестами
+
+| Набор | Тестов | Описание |
+|---|---|---|
+| **Feature/Auth** | 12 | Регистрация, вход, валидация |
+| **Feature/Post** | 11 | CRUD постов, авторизация, лента |
+| **Feature/Comment** | 5 | Комментарии, права доступа |
+| **Feature/Like** | 3 | Toggle лайков |
+| **Unit/Models** | 8 | Связи моделей, методы |
+| **Unit/Services** | 5 | Сервисный слой |
+| **Итого** | **44** | |
+
+## Структура проекта
+
+```
+app/
+├── Http/
+│   ├── Controllers/
+│   │   ├── Auth/
+│   │   │   └── UserController.php
+│   │   ├── CommentController.php
+│   │   ├── LikeController.php
+│   │   └── PostController.php
+│   ├── Requests/         # Form Request валидация
+│   └── Resources/        # API Resources
+├── Models/
+│   ├── User.php
+│   ├── Post.php
+│   ├── Comment.php
+│   └── Like.php
+├── Policies/             # Авторизация действий
+├── Providers/
+│   └── AppServiceProvider.php
+└── Services/             # Бизнес-логика
+tests/
+├── Feature/
+│   ├── Auth/
+│   ├── Comment/
+│   ├── Like/
+│   └── Post/
+└── Unit/
+    ├── Models/
+    └── Services/
+```
+
+## Лицензия
+
+MIT

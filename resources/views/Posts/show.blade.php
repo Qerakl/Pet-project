@@ -65,19 +65,19 @@
                                 @csrf
                                 <button type="submit" class="btn-like {{ $post->isLikedBy(Auth::user()) ? 'liked' : '' }}">
                                     <i class="bi {{ $post->isLikedBy(Auth::user()) ? 'bi-heart-fill' : 'bi-heart' }}"></i>
-                                    {{ $post->likes->count() }}
+                                    {{ $post->likes_count }}
                                 </button>
                             </form>
                         @else
                             <span class="btn-like" style="cursor: default;">
                                 <i class="bi bi-heart"></i>
-                                {{ $post->likes->count() }}
+                                {{ $post->likes_count }}
                             </span>
                         @endauth
 
                         <span class="btn-comment" style="cursor: default;">
                             <i class="bi bi-chat"></i>
-                            {{ $post->comments->count() }}
+                            {{ $post->comments_count }}
                         </span>
                     </div>
                 </div>
@@ -89,7 +89,7 @@
                     <h6 class="fw-bold mb-0">
                         <i class="bi bi-chat-dots me-2 text-primary"></i>
                         Комментарии
-                        <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill ms-1">{{ $post->comments->count() }}</span>
+                        <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill ms-1">{{ $post->comments_count }}</span>
                     </h6>
                 </div>
                 <div class="card-body p-4">

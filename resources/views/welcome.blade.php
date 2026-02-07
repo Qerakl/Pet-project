@@ -68,19 +68,19 @@
                                         @csrf
                                         <button type="submit" class="btn-like {{ $post->isLikedBy(Auth::user()) ? 'liked' : '' }}">
                                             <i class="bi {{ $post->isLikedBy(Auth::user()) ? 'bi-heart-fill' : 'bi-heart' }}"></i>
-                                            {{ $post->likes->count() }}
+                                            {{ $post->likes_count }}
                                         </button>
                                     </form>
                                 @else
                                     <span class="btn-like" style="cursor: default;">
                                         <i class="bi bi-heart"></i>
-                                        {{ $post->likes->count() }}
+                                        {{ $post->likes_count }}
                                     </span>
                                 @endauth
 
                                 <a href="{{ route('posts.show', $post) }}" class="btn-comment">
                                     <i class="bi bi-chat"></i>
-                                    {{ $post->comments->count() }}
+                                    {{ $post->comments_count }}
                                 </a>
                             </div>
                         </div>

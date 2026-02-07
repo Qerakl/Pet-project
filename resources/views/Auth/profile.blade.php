@@ -34,12 +34,12 @@
                     {{-- Статистика --}}
                     <div class="d-flex justify-content-center mb-4">
                         <div class="stat-item">
-                            <h4 class="fw-bold mb-0">{{ $user->posts->count() }}</h4>
-                            <small class="text-muted">{{ trans_choice('пост|поста|постов', $user->posts->count()) }}</small>
+                            <h4 class="fw-bold mb-0">{{ $user->posts_count }}</h4>
+                            <small class="text-muted">{{ trans_choice('пост|поста|постов', $user->posts_count) }}</small>
                         </div>
                         <div class="stat-item">
-                            <h4 class="fw-bold mb-0">{{ $user->likes->count() }}</h4>
-                            <small class="text-muted">{{ trans_choice('лайк|лайка|лайков', $user->likes->count()) }}</small>
+                            <h4 class="fw-bold mb-0">{{ $user->likes_count }}</h4>
+                            <small class="text-muted">{{ trans_choice('лайк|лайка|лайков', $user->likes_count) }}</small>
                         </div>
                         <div class="stat-item">
                             <h4 class="fw-bold mb-0">{{ (int) $user->created_at->diffInDays(now()) }}</h4>

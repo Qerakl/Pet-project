@@ -73,11 +73,11 @@
                                                 <span>
                                                     <i class="bi bi-calendar3 me-1"></i>{{ $post->created_at->format('d.m.Y') }}
                                                 </span>
-                                                <span class="{{ $post->likes->count() > 0 ? 'text-danger' : '' }}">
-                                                    <i class="bi bi-heart{{ $post->likes->count() > 0 ? '-fill' : '' }} me-1"></i>{{ $post->likes->count() }}
+                                                <span class="{{ $post->likes_count > 0 ? 'text-danger' : '' }}">
+                                                    <i class="bi bi-heart{{ $post->likes_count > 0 ? '-fill' : '' }} me-1"></i>{{ $post->likes_count }}
                                                 </span>
                                                 <span>
-                                                    <i class="bi bi-chat me-1"></i>{{ $post->comments->count() }}
+                                                    <i class="bi bi-chat me-1"></i>{{ $post->comments_count }}
                                                 </span>
                                                 @if($post->image)
                                                     <span class="text-success">
